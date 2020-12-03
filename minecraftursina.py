@@ -18,6 +18,7 @@ class Voxel(Button):
         if self.hovered:
             if key == 'right mouse down':
                 voxel = Voxel(position=self.position + mouse.normal)
+            # if a voxel at y = 0 is destroyed it causes a bug
             elif key == 'left mouse down' and self.position.y != 0:
                 destroy(self)
 
@@ -32,6 +33,7 @@ voxels = []
 def update():
     for z in range(int(player.z - 5), int(player.z + 5)):
         for x in range(int(player.x - 5), int(player.x + 5)):
+            # optimizing by not making any voxels where there are already voxels
             if (x, z) not in [(voxel.x, voxel.z) for voxel in voxels if len(voxels) != 0]:
                 voxel = Voxel((x, 0, z))
                 voxels.append(voxel)
